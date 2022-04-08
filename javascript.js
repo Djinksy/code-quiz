@@ -143,7 +143,7 @@ function checkAns(answer) {
     }
 
 }
-
+//functions to choose answers
 function choose0() { checkAns(0) };
 
 function choose1() { checkAns(1) };
@@ -166,7 +166,7 @@ function gameOver() {
 
     finalScore.textContent = scoreResult
 }
-// local storage wont save
+// syntax for data to save in local storage.
 function storeScores(event) {
     event.preventDefault();
 
@@ -175,6 +175,7 @@ function storeScores(event) {
 
     if (!storeHighScore) {
         arrayScores = [];
+
     } else {
         arrayScores = JSON.parse(storeHighScore)
     }
@@ -192,7 +193,7 @@ function storeScores(event) {
 }
 
 var i = 0
-
+    // function to showScore after game is completed.
 function showScore() {
     startContainer.style.display = "none";
     summary.style.display = "none";
@@ -204,12 +205,13 @@ function showScore() {
     if (saveScore === null) {
         return;
     }
+    console.log(scoreList)
     var storeHighScore = JSON.parse(saveScore);
 
     for (; i < storeHighScore.length; i++) {
         var newScore = document.createElement("p");
-        newScore = storeHighScore[i].initials + "- Score:" + storeHighScore[i].score;
-        // problem
+        newScore.innerHTML = storeHighScore[i].initials + " - Score:" + storeHighScore[i].score;
+
         scoreList.appendChild(newScore);
     }
 }
@@ -223,6 +225,7 @@ answer4.addEventListener("click", choose3);
 //addEventListener on click to submit your score in local storage
 submitBtn.addEventListener("click", function(event) {
     storeScores(event)
+
 });
 //addEventListener on click to restart the quiz.
 restartBtn.addEventListener("click", function() {

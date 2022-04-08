@@ -57,7 +57,7 @@ var questionIndex = 0;
 var questionRandom;
 
 mainScreen();
-
+//function to show the main screen only
 function mainScreen() {
     startContainer.style.display = "block"
     summary.style.display = "none"
@@ -65,7 +65,7 @@ function mainScreen() {
     questionDiv.style.display = "none"
     timesOver.style.display = "none"
 }
-
+//newquiz function for the timer to start and quiz to begin
 function newQuiz() {
 
 
@@ -105,7 +105,7 @@ function showQuiz() {
     nextQuestion();
     console.log("working")
 }
-
+//function for the questions to pop up
 function nextQuestion() {
     questionTitle.textContent = questions[questionIndex].question;
     answer1.textContent = questions[questionIndex].choices[0];
@@ -114,14 +114,14 @@ function nextQuestion() {
     answer4.textContent = questions[questionIndex].choices[3];
 }
 
-
+// function to correctly check the answers giving you green "correct".
 function checkAns(answer) {
     if (questions[questionIndex].answer === questions[questionIndex].choices[answer]) {
         scoreResult++;
         answerCheck.textContent = "Correct"
         answerCheck.style.color = "green";
         console.log("corr")
-    } else {
+    } else { // to show red and "incorrect"
         secsLeft -= 5;
         answerCheck.textContent = "Incorrect";
         answerCheck.style.color = "red";
@@ -137,7 +137,7 @@ function checkAns(answer) {
         timer.style.display = "none";
         timeLeft.style.display = "none"
     }
-
+    //if the timer reaches zero gameOver
     if (secsLeft === 0) {
         gameOver();
     }
@@ -152,7 +152,7 @@ function choose2() { checkAns(2) };
 
 function choose3() { checkAns(3) };
 
-
+//function to show your final score of the quiz
 function gameOver() {
 
     console.log("jkjkjkkjkj")
@@ -166,9 +166,10 @@ function gameOver() {
 
     finalScore.textContent = scoreResult
 }
-
+// local storage wont save
 function storeScores(event) {
     event.preventDefault();
+
     var storeHighScore = localStorage.getItem("high scores");
     var arrayScores;
 
@@ -178,9 +179,10 @@ function storeScores(event) {
         arrayScores = JSON.parse(storeHighScore)
     }
     var userScore = {
-        initials: initials.vaule,
+        initials: initials.value,
         score: finalScore.textContent
     };
+    console.log(userScore)
     arrayScores.push(userScore);
 
     var scoreString = JSON.stringify(arrayScores);
@@ -206,23 +208,33 @@ function showScore() {
 
     for (; i < storeHighScore.length; i++) {
         var newScore = document.createElement("p");
-        newScore.innerHTML = storeHighScore[i].initials + "- Score:" + storeHighScore[i].score;
+        newScore = storeHighScore[i].initials + "- Score:" + storeHighScore[i].score;
+        // problem
         scoreList.appendChild(newScore);
     }
 }
 
-
+//addEventListener on click to start quiz and choose your answers
 startBtn.addEventListener("click", newQuiz);
 answer1.addEventListener("click", choose0);
 answer2.addEventListener("click", choose1);
 answer3.addEventListener("click", choose2);
 answer4.addEventListener("click", choose3);
-
-submitBtn.addEventListener("click", function() {
-    storeScores()
+//addEventListener on click to submit your score in local storage
+submitBtn.addEventListener("click", function(event) {
+    storeScores(event)
 });
-
+//addEventListener on click to restart the quiz.
 restartBtn.addEventListener("click", function() {
+    startContainer.style.display = "block";
+    highscores.style.display = "none";
+});
+//add EventListener on click to view highscores.
+viewHighScore.addEventListener("click", function(event) {
+    showScore(event)
+});
+// add EventListener on click to exit high scores and return to quiz.
+backBtn.addEventListener("click", function() {
     startContainer.style.display = "block";
     highscores.style.display = "none";
 });
